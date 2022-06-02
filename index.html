@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects on Github</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 36px;
+        background-color: #fafafa;
+        font-family: "Noto Sans", sans-serif;
+      }
+      .list {
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+      }
+      .list li {
+        padding: 8px;
+        border-radius: 4px;
+        border: 1px solid lightgray;
+      }
+      h2 {
+        font-weight: 300;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>My Projects</h2>
+    <div id="my-github-projects"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/github-api/3.4.0/GitHub.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        $("#my-github-projects").loadRepositories("arunvbiradar");
+      });
+      jQuery.githubUser = function (username, callback) {
+        jQuery.getJSON(
+          "https://api.github.com/users/" + username + "/repos?callback=?",
+          callback
+        );
+      };
+
+      jQuery.fn.loadRepositories = function (username) {
+        this.html(
+          "<span>Querying GitHub for " + username + "'s repositories...</span>"
+        );
+
+        var target = this;
+        $.githubUser(username, function (data) {
+          var repos = data.data; // JSON Parsing
+          sortByName(repos);
+
+          var list = $("<ul class='list'>");
+          target.empty().append(list);
+          $(repos).each(function () {
+            if (this.has_pages) {
+              list.append(
+                `<li class="hasLink"><a href="https://${username}.github.io/${this.name}">${this.name}</a></li>`
+              );
+            } else {
+              list.append(`<li>${this.name}</li>`);
+            }
+          });
+        });
+
+        function sortByName(repos) {
+          repos.sort(function (a, b) {
+            return a.name - b.name;
+          });
+        }
+      };
+    </script>
+  </body>
+</html>
