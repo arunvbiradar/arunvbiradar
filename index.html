@@ -14,32 +14,51 @@
     <style>
       body {
         margin: 0;
-        padding: 36px;
-        background-color: #fafafa;
+        color: #212121;
+        background-color: #e2eaed;
         font-family: "Noto Sans", sans-serif;
       }
       .list {
         display: flex;
+        margin: 36px 0 0;
+        flex-wrap: wrap;
         padding-left: 0;
         list-style: none;
+        padding-left: 36px;
+        padding-right: 36px;
+        align-items: center;
       }
       .list li {
-        padding: 8px;
-        border-radius: 4px;
-        border: 1px solid lightgray;
+        margin-right: 16px;
+        margin-bottom: 16px;
       }
-      h2 {
+      .list li a {
+        color: #212121;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        display: inline-block;
+        background-color: #e6eef1;
+        border: 1px solid #d0dde1;
+      }
+      .jumbotron {
+        margin: 0;
+        color: #fff;
+        line-height: 3;
+        font-size: 48px;
+        padding: 36px 0;
         font-weight: 300;
+        text-align: center;
+        background-color: #3e6cb3;
       }
     </style>
   </head>
   <body>
-    <h2>My Projects</h2>
+    <h2 class="jumbotron">My Projects</h2>
     <div id="my-github-projects"></div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/github-api/3.4.0/GitHub.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
     <script type="text/javascript">
       $(function () {
         $("#my-github-projects").loadRepositories("arunvbiradar");
